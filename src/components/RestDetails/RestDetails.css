@@ -1,0 +1,220 @@
+RestDetails.css
+   .rest-details {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .rest-details h2 {
+    color: #333;
+    margin-bottom: 15px;
+  }
+  
+  .rest-details img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 15px;
+  }
+  
+  .rest-details img:hover {
+    transform: scale(1.05);
+  }
+  
+  .rest-details p {
+    line-height: 1.6;
+    color: #666;
+  }
+  
+  .rest-details h3 {
+    color: #444;
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+  
+  .rest-details h4 {
+    color: #555;
+    margin-top: 15px;
+    margin-bottom: 5px;
+  }
+  
+  .rest-details p[style] {
+    color: #0066cc;
+    text-decoration: underline;
+    margin: 5px 0;
+  }
+  
+  .rest-details p[style]:hover {
+    color: #004499;
+  }
+  
+  .popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .popup-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 600px;
+    height: 80%;
+    max-height: 600px;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #333;
+  }
+  
+  .close-btn:hover {
+    color: #000;
+  }
+  
+  .popup-content h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #333;
+  }
+  
+  .popup-overlay h3{
+    text-align: center;
+    margin-top: 10px;
+    color: tomato;
+  }
+  
+  
+  .leaflet-container {
+    height: 400px;
+    width: 100%;
+    border-radius: 8px;
+    z-index: 1;
+  }
+  
+  .leaflet-popup-content-wrapper {
+    background-color: #f8f8f8;
+    color: #333;
+    border-radius: 4px;
+    padding: 5px;
+  }
+  
+  .leaflet-popup-content {
+    margin: 5px 10px;
+    line-height: 1.4;
+  }
+  
+  .leaflet-popup-tip-container {
+    display: none;
+  }
+  
+  .restaurant-list {
+    margin: 30px;
+    padding: 20px;
+  }
+  
+  .restaurant-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+  }
+   
+  .restaurant-card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: inline-block;
+    box-sizing: border-box;
+    padding: 5px; 
+  }
+  
+  .restaurant-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  }
+  
+  .restaurant-image {
+    width: 100%;
+    /* height: 200px; */
+    object-fit: cover;
+    height: auto;   
+  }
+  
+  .restaurant-info {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    text-align: center; 
+    width: 100%; 
+    box-sizing: border-box; 
+  }
+  
+  .restaurant-name {
+    font-size: 16px;
+    margin: 0;
+    color: #333;
+    word-wrap: break-word; 
+  }
+  
+  .restaurant-address,
+  .restaurant-operating-hours {
+    font-size: 12px;
+    color: #666;
+    word-wrap: break-word;                 /* this is a styling to make sure long words break and don't overflow */
+    margin: 5px 0; 
+    max-width: 100%; 
+  }
+  
+   @media (max-width: 768px) {
+    .restaurant-name {
+      font-size: 16px;
+    }
+  
+    .restaurant-address,
+    .restaurant-operating-hours {
+      font-size: 12px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .restaurant-grid {
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    }
+  
+    .restaurant-name {
+      font-size: 14px;
+    }
+  
+    .restaurant-address,
+    .restaurant-operating-hours {
+      font-size: 10px;
+    }
+  
+    .restaurant-image {
+      height: 150px;
+    }
+  }
+  
+  
+  
