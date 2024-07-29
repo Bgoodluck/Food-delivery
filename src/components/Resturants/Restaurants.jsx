@@ -3,7 +3,7 @@ import './Restaurants.css';
 import RestDetails from '../RestDetails/RestDetails';
 import { StoreContext } from '../../context/StoreContext';
 import { IoCloseCircle } from "react-icons/io5";
-import Logo from '../Logo/Logo';
+import { PiHandArrowUpThin } from "react-icons/pi";
 
 function Resturants({ category, setCategory, searchQuery = "" }) {
   const [selectedRestaurant, setSelectedRestaurant] = useState(null);
@@ -50,7 +50,7 @@ function Resturants({ category, setCategory, searchQuery = "" }) {
       <div className='explore-rest' id='explore-restaurants'>
       <h1>Our Partner Restaurants</h1>
         <div className='scroll'>
-        <b onClick={scrollToTop}>Top</b>
+        <b onClick={scrollToTop}><PiHandArrowUpThin /></b>
         </div>
         <p className='explore-rest-text'>
           <b>

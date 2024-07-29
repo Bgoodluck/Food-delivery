@@ -4,6 +4,7 @@ import { StoreContext } from '../../context/StoreContext';
 import FoodItem from '../FoodItem/FoodItem';
 import RestDetails from '../RestDetails/RestDetails';
 import { IoCloseCircle } from 'react-icons/io5';
+import { PiHandArrowUpThin } from "react-icons/pi";
 
 
 function FoodDisplay({ category }) {
@@ -65,7 +66,7 @@ function FoodDisplay({ category }) {
 
   return (
     <div className='food-display' id='food-display'>
-      <div className='scroll' onClick={scrollToTop}><b>Top</b></div>
+      <div className='scroll' onClick={scrollToTop}><b><PiHandArrowUpThin /></b></div>
       <div className="food-display-header">  
           
       <h2>Top dishes and restaurants near you</h2>

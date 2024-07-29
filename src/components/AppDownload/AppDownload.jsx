@@ -1,6 +1,7 @@
 import React from 'react'
 import './AppDownload.css'
 import { assets } from '../../assets/assets'
+import { PiHandArrowUpThin } from "react-icons/pi";
 
 function AppDownload() {
 
@@ -10,7 +11,7 @@ function AppDownload() {
 
   return (
     <div className='app-download' id='app-download'>
-      <div className='scroll' onClick={scrollToTop}><b>Top</b></div>
+      <div className='scroll' onClick={scrollToTop}><b><PiHandArrowUpThin /></b></div>
         <p>For Better Experience Download  <br /> Good Chops App</p>
         <div className="app-download-platforms">
             <img src={assets.play_store} alt="" />
