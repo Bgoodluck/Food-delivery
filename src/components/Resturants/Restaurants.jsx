@@ -57,7 +57,8 @@ function Resturants({ category, setCategory, searchQuery = "" }) {
           From a wide range of restaurants, allow us to dazzle you while satisfying your cravings and elevate your dining experience from professional chefs. Order from any of our partner restaurants and allow us to deliver to your doorstep.
           </b>
         </p>
-        <marquee behavior="" direction="">
+        <div className="marquee-container">
+          <div className="marquee-content">
           <div className="explore-rest-list">
             {filteredRestaurants.length > 0 ? (
               <div className="restaurant-grid">
@@ -89,7 +90,8 @@ function Resturants({ category, setCategory, searchQuery = "" }) {
               <p>No restaurants available.</p>
             )}
           </div>
-        </marquee>
+          </div>
+        </div>
         <hr />
         {selectedRestaurant && (
           <div className="popup-overlay">

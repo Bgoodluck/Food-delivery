@@ -150,6 +150,7 @@
 }
 
 
+
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -230,11 +231,46 @@
     }
 }
 
-
-marquee { 
-    display: block;
+.marquee-container {
+    width: 100%;
     overflow: hidden;
-    white-space: nowrap;
-    box-sizing: border-box;
-    width: 100%; }
+    position: relative;
+    padding: 0 20px;
+    box-sizing: border-box; 
+  }
+  
+  .marquee-content {
+    display: flex;
+    align-items: center;
+    width: 200%; 
+    animation: marquee 40s linear infinite;
+  }
 
+  .scrolling-text {
+    display: inline-block;
+    white-space: nowrap;
+  }
+  
+  @keyframes marquee {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+  }
+  
+  @media (max-width: 768px) { 
+    .marquee-content {
+      font-size: 14px; 
+      animation-duration: 15s; 
+    }
+  }
+
+  @media (max-width: 480px) {
+    .marquee-content {
+        font-size: 12px;
+        animation-duration: 20s;
+        padding-right: 10px;
+    }
+  }
+
+
+  
+  
