@@ -3,12 +3,23 @@ import './Cart.css'
 import { StoreContext } from '../../context/StoreContext'
 import { assets } from '../../assets/assets';
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
+
+
 
 function Cart() {
 
 const {cartItems, food_list, removeCartItem, getTotalCartAmount, url} = useContext(StoreContext);
 
 const navigate = useNavigate();
+
+const handleRemoveCartItem = (id, name) => {
+  removeCartItem(id);
+  toast.error(`${name} removed from cart!`);
+};
 
 return (
 <div className='cart'>
@@ -33,7 +44,7 @@ return (
                   <p>₦{item.price}</p>
                   <p>{cartItems[item._id]}</p>
                   <p>₦{item.price * cartItems[item._id] }</p>
-                  <p onClick={()=> removeCartItem(item._id)} className='cross'>x</p>
+                  <p onClick={() => handleRemoveCartItem(item._id, item.name)} className='cross'>x</p>
                  </div>
                  <hr />
                 </div>
@@ -72,6 +83,7 @@ return (
      </div>
    </div>
   </div>
+  <ToastContainer />
 </div>
 )
 }
