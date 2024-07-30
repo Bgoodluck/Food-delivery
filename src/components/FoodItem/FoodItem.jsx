@@ -29,7 +29,7 @@ function FoodItem({id, name, price, description, image, restaurant}) {
       <div className="food-item-img-container">
         <img className='food-item-image' src={url + "/images/" + image} alt="" />
         {!cartItems[id] ? (
-          <img className='add' onClick={() => handleAddToCart(id)} src={assets.add_icon_white} alt="" />
+          <img className='add' onClick={() => addToCart(id)} src={assets.add_icon_white} alt="" />
         ) : (
           <div className='food-item-counter'>
             <img onClick={() => handleRemoveCartItem(id)} src={assets.remove_icon_red} alt="" />
@@ -47,18 +47,7 @@ function FoodItem({id, name, price, description, image, restaurant}) {
         <p className="food-item-restaurant">{restaurant}</p>
         <p className="food-item-price">₦{price}</p>
       </div>
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
-
+      
     </div>
   );
 }
