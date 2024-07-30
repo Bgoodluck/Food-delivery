@@ -11,6 +11,11 @@ import MyOrders from './pages/MyOrders/MyOrders'
 import 'leaflet/dist/leaflet.css';
 import Thanks from './pages/Thanks/Thanks'
 import Profile from './pages/Profile/Profile'
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
+
 
 function App() {
 
@@ -33,6 +38,17 @@ function App() {
       </div>
       
       <Footer />
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </>
   )
 }
