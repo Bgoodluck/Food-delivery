@@ -5,7 +5,7 @@
     box-shadow: 0px 0px 10px #00000015;
     transition: 0.5s;
     animation: fadeIn 1s;
-    position: relative;
+    /* position: relative; */
 }
 
 .food-item-image{
@@ -84,6 +84,6 @@
     width: 25px;
 }
 
-.Toastify__toast-container {
+/* .Toastify__toast-container {
     z-index: 9999; 
-  }
+  } */
