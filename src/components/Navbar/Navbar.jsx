@@ -6,6 +6,7 @@ import { StoreContext } from '../../context/StoreContext';
 
 function Navbar({ setShowLogin }) {
     const [menu, setMenu] = useState("home");
+    const [isMenuOpen, setIsMenuOpen] = useState(false); 
     const { getTotalCartAmount, token, setToken, userProfile } = useContext(StoreContext);
     const navigate = useNavigate();
 
@@ -14,17 +15,25 @@ function Navbar({ setShowLogin }) {
         setToken("");
         navigate("/");
     };
+
+    const toggleMenu = () => {
+        setIsMenuOpen(!isMenuOpen);
+    };
+
     console.log("Current userProfile in Navbar:", userProfile);
 
     return (
         <div className='navbar'>
             <Link to='/'><img src={assets.logo4} alt="" className='logo' /></Link>
-            <ul className="navbar-menu">
-                <Link to='/' onClick={() => setMenu("home")} className={menu === "home" ? "active" : ""}>Home</Link>
-                <a href='#explore-restaurants' onClick={() => setMenu("restaurants")} className={menu === "restaurants" ? "active" : ""}>Restaurants</a>
-                <a href='#explore-menu' onClick={() => setMenu("menu")} className={menu === "menu" ? "active" : ""}>Menu</a>
-                <a href='#app-download' onClick={() => setMenu("mobile-app")} className={menu === "mobile-app" ? "active" : ""}>Mobile-app</a>
-                <a href='#footer' onClick={() => setMenu("contact-us")} className={menu === "contact-us" ? "active" : ""}>Contact Us</a>
+            <div className="hamburger-icon" onClick={toggleMenu}>
+                &#9776;
+            </div>
+            <ul className={`navbar-menu ${isMenuOpen ? 'open' : ''}`}>
+                <Link to='/' onClick={() => {setMenu("home"); toggleMenu();}} className={menu === "home" ? "active" : ""}>Home</Link>
+                <a href='#explore-restaurants' onClick={() => {setMenu("restaurants"); toggleMenu();}} className={menu === "restaurants" ? "active" : ""}>Restaurants</a>
+                <a href='#explore-menu' onClick={() => {setMenu("menu"); toggleMenu();}} className={menu === "menu" ? "active" : ""}>Menu</a>
+                <a href='#app-download' onClick={() => {setMenu("mobile-app"); toggleMenu();}} className={menu === "mobile-app" ? "active" : ""}>Mobile-app</a>
+                <a href='#footer' onClick={() => {setMenu("contact-us"); toggleMenu();}} className={menu === "contact-us" ? "active" : ""}>Contact Us</a>
             </ul>
             <div className="navbar-right">
                 <img src={assets.search_icon} alt="" />
@@ -55,5 +64,6 @@ function Navbar({ setShowLogin }) {
         </div>
     );
 }
+
 
 export default Navbar;
