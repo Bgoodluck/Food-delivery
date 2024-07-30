@@ -36,13 +36,13 @@ function Navbar({ setShowLogin }) {
                 <a href='#footer' onClick={() => {setMenu("contact-us"); toggleMenu();}} className={menu === "contact-us" ? "active" : ""}>Contact Us</a>
             </ul>
             <div className="navbar-right">
-                <img src={assets.search_icon} alt="" />
+                
                 <div className="navbar-search-icon">
                     <Link to='/cart'><img src={assets.basket_icon} alt="" /></Link>
                     <div className={getTotalCartAmount() === 0 ? '' : 'dot'}></div>
                 </div>
                 {!token ? (
-                    <button onClick={() => setShowLogin(true)}>Sign In</button>
+                    <button onClick={() => setShowLogin(true)}>Login</button>
                 ) : (
                     <div className='navbar-profile'>
                         <img src={assets.profile_icon} alt="" />
