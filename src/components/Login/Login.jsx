@@ -50,7 +50,7 @@ function Login({setShowLogin}) {
         setToken(response.data.token);
         localStorage.setItem("token", response.data.token)
         setShowLogin(false)
-        if (curState === "Sign Up") {
+        if (curState === "register") {
           toast.success("Registration successful!");
         }
       } else {
