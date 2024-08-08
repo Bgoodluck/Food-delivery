@@ -7,7 +7,7 @@ const StoreContextProvider = (props) => {
     const [cartItems, setCartItems] = useState({});
     const [food_list, setFoodList] = useState([]);
     const [restaurant_list, setRestaurantList] = useState([]); 
-    const url = "https://food-delivery-api-cyj9.onrender.com";
+    const url = "http://localhost:4000";
     const [token, setToken] = useState(localStorage.getItem('token') || '');
     const [userProfile, setUserProfile] = useState(null);
     const [error, setError] = useState(null);
@@ -84,6 +84,26 @@ const StoreContextProvider = (props) => {
         }
     };
 
+
+    const deleteCartItem = async (itemId) => {
+        
+        const updatedCart = { ...cartItems };
+        delete updatedCart[itemId];
+        
+        setCartItems(updatedCart);
+        updateLocalStorage(updatedCart);
+    
+        if (token) {
+            try {
+                await axios.post(url + "/api/cart/delete", { itemId }, { headers: { token } });
+            } catch (error) {
+                console.error("Error removing from cart on backend:", error);
+            }
+        }
+    };
+    
+    
+
     const getTotalCartAmount = () => {
         let totalAmount = 0;
         for (const item in cartItems) {
@@ -138,13 +158,28 @@ const StoreContextProvider = (props) => {
         }
     };
     
-    const updateUserProfile = async (profileData) => {
+   const updateUserProfile = async (profileData) => {
         try {
             setError(null);
             setSuccess(false);
-            const response = await axios.post(url + "/api/profile/update", profileData, {
-                headers: { Authorization: `Bearer ${token}` }
-            });
+    
+            let response;     
+            
+            if (profileData instanceof FormData) {
+                
+                response = await axios.post(url + "/api/profile/update", profileData, {
+                    headers: { 
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'multipart/form-data' 
+                    }
+                });
+            } else {
+               
+                response = await axios.post(url + "/api/profile/update", profileData, {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+            }
+                
             setUserProfile(response.data.profile);
             setSuccess(true);
         } catch (error) {
@@ -152,6 +187,7 @@ const StoreContextProvider = (props) => {
             setError("Failed to update profile. Please try again.");
         }
     };
+    
 
 
     useEffect(() => {
@@ -206,6 +242,7 @@ const StoreContextProvider = (props) => {
         restaurant_list, 
         addToCart,
         removeCartItem,
+        deleteCartItem,
         cartItems,
         setCartItems,
         getTotalCartAmount,

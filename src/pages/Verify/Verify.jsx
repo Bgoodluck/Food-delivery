@@ -20,7 +20,7 @@ function Verify() {
         if (response.data.success) {
           setVerificationStatus('Payment verified successfully!');
           
-          // Redirect to order confirmation page or dashboard
+          
           setTimeout(() => navigate('/myorders'), 2000);
         } else {
           setVerificationStatus('Payment verification failed. Please contact support.');

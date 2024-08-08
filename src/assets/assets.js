@@ -72,6 +72,8 @@ import profile_icon from './profile_icon.png'
 import bag_icon from './bag_icon.png'
 import logout_icon from './logout_icon.png'
 import parcel_icon from './parcel_icon.png'
+import star_filled from './star-full-icon.png'
+import star_empty from './star2.png'
 
 
 export const assets = {
@@ -105,7 +107,9 @@ export const assets = {
     food_14,
     food_15,
     food_16,
-    food_24
+    food_24,
+    star_empty,
+    star_filled
 }
 
 export const menu_list = [

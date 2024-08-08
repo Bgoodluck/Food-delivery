@@ -84,6 +84,26 @@
     width: 25px;
 }
 
+.rating-stars {
+    display: grid;
+    grid-template-columns: repeat(5, 16px); /* Explicitly define 5 columns, each 20px wide */
+    gap: 4px; /* Small gap between stars */
+    padding-right: 16px; /* Reduced padding to shift stars slightly left */
+    position: relative;
+    grid-row-start: auto;
+}
+
+.rating-star {
+    width: 16px; /* Desired width */
+    height: 16px; /* Desired height */
+    object-fit: contain; /* Maintain aspect ratio */
+    box-sizing: border-box;
+    margin-right: 6px;
+}
+
+
+
+
 /* .Toastify__toast-container {
     z-index: 9999; 
   } */
