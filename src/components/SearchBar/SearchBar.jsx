@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './SearchBar.css'
-import FoodDisplay from './FoodDisplay';
-import Restaurants from './Resturants';
+import FoodDisplay from '../FoodDisplay/FoodDisplay';
+import Restaurants from '../Resturants/Restaurants';
 
 
 function SearchBar() {

@@ -1,14 +1,15 @@
-import React, { useContext, useState } from 'react'
-import './Login.css'
-import { assets } from '../../assets/assets'
-import { StoreContext } from '../../context/StoreContext'
-import axios from 'axios'
+import React, { useContext, useState } from 'react';
+import './Login.css';
+import { assets } from '../../assets/assets';
+import { StoreContext } from '../../context/StoreContext';
+import axios from 'axios';
 import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-function Login({setShowLogin}) {
-  const {url, setToken} = useContext(StoreContext)
-  const [curState, setCurState] = useState("Login")
-  const [error, setError] = useState("")
+function Login({ setShowLogin }) {
+  const { url, setToken } = useContext(StoreContext);
+  const [curState, setCurState] = useState("Login");
+  const [error, setError] = useState("");
 
   const [data, setData] = useState({
     name: "",
@@ -20,7 +21,7 @@ function Login({setShowLogin}) {
       state: "",
       country: "",
     }
-  })
+  });
 
   const onChangeHandler = (event) => {
     const { name, value } = event.target;
@@ -36,37 +37,41 @@ function Login({setShowLogin}) {
     } else {
       setData(prevData => ({ ...prevData, [name]: value }));
     }
-  }
+  };
 
   const onLogin = async (event) => {
-    event.preventDefault()
-    setError("")
-    
-    let newUrl = `${url}/api/user/${curState === "Login" ? "login" : "register"}`
+    event.preventDefault();
+    setError("");
+
+    let newUrl = `${url}/api/user/${curState === "Login" ? "login" : "register"}`;
 
     try {
       const response = await axios.post(newUrl, data);
       if (response.data.success) {
         setToken(response.data.token);
-        localStorage.setItem("token", response.data.token)
-        setShowLogin(false)
+        localStorage.setItem("token", response.data.token);
+        setShowLogin(false);
         if (curState === "register") {
           toast.success("Registration successful!");
+        } else {
+          toast.success("Login successful!");
         }
       } else {
-        setError(response.data.message)
+        setError(response.data.message);
+        toast.error(response.data.message); 
       }
     } catch (error) {
-      setError("An error occurred. Please try again.")
+      setError("An error occurred. Please try again.");
+      toast.error("An error occurred. Please try again."); 
     }
-  }
-   
+  };
+
   return (
     <div className='login'>
       <form onSubmit={onLogin} className="login-popup-container">
         <div className="login-popup-title">
           <h2>{curState}</h2>
-          <img onClick={()=> setShowLogin(false)} src={assets.cross_icon} alt="" />
+          <img onClick={() => setShowLogin(false)} src={assets.cross_icon} alt="" />
         </div>
         <div className="login-popup-inputs">
           {curState !== "Login" && (
@@ -88,12 +93,12 @@ function Login({setShowLogin}) {
           <p>By continuing, I agree to the terms of use & privacy policy</p>
         </div>
         {curState === "Login" 
-          ? <p>Create a new account? <span onClick={()=> setCurState("Sign Up")}>Click here</span></p>
-          : <p>Already have an account? <span onClick={()=> setCurState("Login")}>Login here</span></p>
+          ? <p>Create a new account? <span onClick={() => setCurState("Sign Up")}>Click here</span></p>
+          : <p>Already have an account? <span onClick={() => setCurState("Login")}>Login here</span></p>
         }
       </form>
     </div>
-  )
+  );
 }
 
-export default Login
+export default Login;

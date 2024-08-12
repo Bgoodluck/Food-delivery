@@ -43,7 +43,7 @@ function Footer() {
         const data = await response.json();
         console.log('Login successful, response data:', data);
         localStorage.setItem('token', data.token);
-        window.location.href = 'http://localhost:5174/orders';
+        window.location.href = 'https://food-delivery-admin-green.vercel.app/orders';
       } else {
         const errorData = await response.json();
         console.error('Login failed, error data:', errorData);

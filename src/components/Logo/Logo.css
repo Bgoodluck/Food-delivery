@@ -1,5 +1,162 @@
-.logo1{
-    width: 10px;
-    height: 10px;
-    border-radius: 100px;
+.explore-rmenu {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    
+}
+
+.explore-rmenu h1 {
+    color: #262626;
+    font-weight: 500;
+}
+
+.explore-rmenu-text {
+    
+    color: #262626;
+    font-weight: 500;
+}
+
+.explore-rmenu-list {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+    text-align: center;
+    margin: 20px 0;
+    overflow-x: scroll;
+    scroll-behavior: smooth;
+    padding: 0; 
+    position: relative;
+}
+
+.explore-rmenu-list::-webkit-scrollbar {
+    display: none;
+}
+
+.explore-rmenu-list-item img {
+    width: 7.5vw;
+    height: 7.5vw;
+    min-width: 80px;
+    cursor: pointer;
+    border-radius: 100%;
+    transition: 0.2s;
+}
+
+.explore-rmenu-list-item p {
+    margin-top: 10px;
+    color: black;
+    font-size: max(i.4vw, 16px);
+    cursor: pointer;
+}
+
+.explore-rmenu hr {
+    margin: 10px 0;
+    height: 2px;
+    background-color: #FFA500;
+    border: none;
+}
+
+.explore-rmenu-list-item .active {
+    border: 4px solid tomato;
+    padding: 2px;
+}
+
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .popup-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    position: relative;
+    width: 80%;
+    max-width: 600px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: tomato;
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .close-btn:hover {
+    background: darkred;
+  }
+  
+
+@media (max-width: 1050px) {
+    .explore-rmenu-list {
+        gap: 20px;
+        padding: 0 10px; /* Add some padding for better visibility */
+    }
+
+    .explore-rmenu-list-item img {
+        width: 10vw; /* Adjust size for better visibility */
+        height: 10vw; /* Ensure aspect ratio is maintained */
+        min-width: 100px; /* Ensure minimum size is large enough */
+    }
+
+    .explore-rmenu-text {
+        font-size: 16px; /* Slightly larger font size */
+    }
+
+    .explore-rmenu-list-item p {
+        font-size: 14px; /* Adjust text size for smaller screens */
+    }
+}
+
+@media (max-width: 768px) {
+    .explore-rmenu-list {
+        flex-direction: row;
+        align-items: center;
+        overflow-x: scroll; 
+    }
+
+    .explore-rmenu-list-item img {
+        width: 25vw; /* Adjust size for smaller screens */
+        height: 25vw; /* Ensure aspect ratio is maintained */
+        min-width: 120px; /* Larger minimum size */
+    }
+
+    .explore-rmenu-text {
+        font-size: 18px; /* Larger font size for better readability */
+    }
+
+    .explore-rmenu-list-item p {
+        font-size: 16px; /* Larger text size for readability */
+    }
+}
+
+@media (max-width: 480px) {
+    .explore-rmenu-list-item img {
+        width: 30vw; /* Adjust size for very small screens */
+        height: 30vw; /* Ensure aspect ratio is maintained */
+        min-width: 150px; /* Increase minimum size */
+    }
+
+    .explore-rmenu-text {
+        font-size: 20px; /* Adjust font size for better readability */
+    }
+
+    .explore-rmenu-list-item p {
+        font-size: 18px; /* Adjust text size for small screens */
+    }
 }

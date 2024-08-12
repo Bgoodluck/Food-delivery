@@ -17,6 +17,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 
+
 function App() {
 
   const [showLogin, setShowLogin] = useState(false)
@@ -35,7 +36,9 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path='/thanks' element={<Thanks />} />         
         </Routes>
+        
       </div>
+      
       
       <Footer />
       <ToastContainer

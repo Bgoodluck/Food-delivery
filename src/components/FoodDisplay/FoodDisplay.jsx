@@ -207,5 +207,3 @@ function FoodDisplay({ category }) {
 
 export default FoodDisplay;
 
-
-

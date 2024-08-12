@@ -5,6 +5,7 @@ import { StoreContext } from '../../context/StoreContext';
 import { IoCloseCircle } from "react-icons/io5";
 import { PiHandArrowUpThin } from "react-icons/pi";
 
+
 function Resturants({ category, setCategory, searchQuery = "" }) {
   const [selectedRestaurant, setSelectedRestaurant] = useState(null);
   const [restaurants, setRestaurants] = useState([]);
@@ -47,7 +48,7 @@ function Resturants({ category, setCategory, searchQuery = "" }) {
 
   return (
     <div className='explore-background'>
-      <div className='explore-rest' id='explore-restaurants'>
+      <div className='explore-rest' >
       <h1>Our Partner Restaurants</h1>
         <div className='scroll'>
         <b onClick={scrollToTop}><PiHandArrowUpThin /></b>
@@ -59,7 +60,7 @@ function Resturants({ category, setCategory, searchQuery = "" }) {
         </p>
         <div className="marquee-container">
           <div className="marquee-content">
-          <div className="explore-rest-list">
+          <div className="explore-rest-list" >
             {filteredRestaurants.length > 0 ? (
               <div className="restaurant-grid">
                 {filteredRestaurants.map((item) => (
@@ -102,6 +103,7 @@ function Resturants({ category, setCategory, searchQuery = "" }) {
           </div>
         )}
       </div>
+      
     </div>
   );
 }

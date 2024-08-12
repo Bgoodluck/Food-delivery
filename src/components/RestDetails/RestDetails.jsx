@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useContext } from 'react';
+import React, { useState, useCallback, useContext } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import './RestDetails.css';
@@ -8,9 +8,9 @@ function SimpleMap({ location }) {
   if (!location) return null;
 
   return (
-    <MapContainer 
-      center={[location.lat, location.lng]} 
-      zoom={13} 
+    <MapContainer
+      center={[location.lat, location.lng]}
+      zoom={13}
       style={{ height: '400px', width: '100%' }}
     >
       <TileLayer
@@ -24,35 +24,24 @@ function SimpleMap({ location }) {
   );
 }
 
-function RestDetails({ restaurant }) {
+function RestDetails({ restaurant, filteredFoods = [] }) {
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
-
   const { url } = useContext(StoreContext);
 
-  useEffect(() => {
-    console.log('Component re-rendered');
-    console.log('Selected Location:', selectedLocation);
-    console.log('Show Popup:', showPopup);
-  });
-
   const handleLocationClick = useCallback(async (address) => {
-    console.log('Clicked address:', address);
     try {
       const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}&limit=1`);
       const data = await response.json();
-      console.log('Nominatim response:', data);
       if (data.length > 0) {
         const newLocation = {
           lat: parseFloat(data[0].lat),
           lng: parseFloat(data[0].lon),
           address: address
         };
-        console.log('Setting new location:', newLocation);
         setSelectedLocation(newLocation);
         setShowPopup(true);
       } else {
-        console.log('No location data found');
         const fallbackLocation = {
           lat: 0,
           lng: 0,
@@ -69,29 +58,40 @@ function RestDetails({ restaurant }) {
   }, []);
 
   if (!restaurant) {
-    console.log('No restaurant data');
     return null;
   }
 
-  console.log('Restaurant data:', restaurant);
+  const { name, image, address, operating_hours, operating_days } = restaurant;
 
-  const { name, image, address, operating_hours, operating_days, menu } = restaurant;
+  console.log('Filtered Foods:', filteredFoods)
 
   return (
     <div className="rest-details">
       <h2>{name}</h2>
       <img src={`${url}/uploads/${image}`} alt={name} className="restaurant-image" />
       <h3>Menu</h3>
-      <p>{menu}</p>
+      <div className="menu-list">
+        {filteredFoods.length > 0 ? (
+          filteredFoods.map(food => (
+            <div key={food._id} className="menu-item">
+              <img src={`${url}/uploads/${food.image}`} alt={food.name} />
+              <h3>{food.name}</h3>
+              <p>₦{food.price}</p>
+            </div>
+          ))
+        ) : (
+          <p>No menu items available.</p>
+        )}
+      </div>
       <h3>Address</h3>
-      <p>{address}</p>
+      <p>{address || 'Address not available'}</p>
       <h3>Operating Hours:</h3>
-      <p>{operating_hours}</p>
+      <p>{operating_hours || 'Hours not available'}</p>
       <h3>Operating Days:</h3>
-      <p>{operating_days}</p>
+      <p>{operating_days || 'Days not available'}</p>
       <h3>Location:</h3>
       <p onClick={() => handleLocationClick(address)} style={{ cursor: 'pointer' }}>
-        {address}
+        {address || 'Click to find location'}
       </p>
       {showPopup && selectedLocation && (
         <div className="popup-overlay">
@@ -107,8 +107,3 @@ function RestDetails({ restaurant }) {
 }
 
 export default RestDetails;
-
-
-
-
-
