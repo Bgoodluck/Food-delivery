@@ -12,7 +12,7 @@
 }
 
 .popup-content {
-    background-color: #fff;
+    background-color: #a8a3a2;
     border-radius: 8px;
     padding: 20px;
     max-width: 80%;
@@ -51,7 +51,7 @@
     border: 1px solid #ddd;
     border-radius: 8px;
     padding: 15px;
-    width: calc(33% - 20px); /* Adjust width based on the number of items per row */
+    width: calc(33% - 20px); 
     text-align: center;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -88,4 +88,52 @@
 
 .menu-item button:hover {
     background: darkred;
+}
+
+@media (max-width: 1024px) {
+    .popup-content {
+        width: 80%;
+        max-width: 90%;
+    }
+
+    .menu-item {
+        width: calc(50% - 20px); 
+    }
+}
+
+
+@media (max-width: 767px) {
+    .popup-content {
+        width: 90%;
+        max-width: 100%;
+        padding: 15px;
+    }
+
+    .close-btn {
+        top: 5px;
+        right: 5px;
+        padding: 6px 12px;
+        font-size: 14px;
+    }
+
+    .menu-list {
+        gap: 10px;
+    }
+
+    .menu-item {
+        width: calc(100% - 10px); 
+    }
+
+    .menu-item h3 {
+        font-size: 16px;
+    }
+
+    .menu-item p {
+        font-size: 14px;
+    }
+
+    .menu-item button {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
 }
