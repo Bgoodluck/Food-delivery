@@ -277,7 +277,7 @@ const StoreContextProvider = (props) => {
     const [cartItems, setCartItems] = useState({});
     const [food_list, setFoodList] = useState([]);
     const [restaurant_list, setRestaurantList] = useState([]);
-    const url = "http://localhost:4000";
+    const url = "https://food-delivery-api-cyj9.onrender.com";
     const [token, setToken] = useState(localStorage.getItem('token') || '');
     const [userProfile, setUserProfile] = useState(null);
     const [error, setError] = useState(null);
