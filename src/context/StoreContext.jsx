@@ -287,10 +287,6 @@ const StoreContextProvider = (props) => {
         localStorage.setItem('cartItems', JSON.stringify(updatedCart));
     };
 
-    const clearLocalStorageCart = () => {
-        localStorage.removeItem('cartItems');
-    };
-
     useEffect(() => {
         if (token) {
             localStorage.setItem('token', token);
@@ -316,7 +312,6 @@ const StoreContextProvider = (props) => {
                 if (error.response && error.response.status === 401) {
                     setToken('');
                     localStorage.removeItem('token');
-                    clearLocalStorageCart(); 
                     window.location.href = '/login';
                 }
                 return Promise.reject(error);
@@ -324,64 +319,92 @@ const StoreContextProvider = (props) => {
         );
     }, [token]);
 
-    const addToCart = async (itemId) => {
-        if (!token) {
-            
-            let localCart = JSON.parse(localStorage.getItem('cartItems') || '{}');
-            localCart[itemId] = (localCart[itemId] || 0) + 1;
-            updateLocalStorage(localCart);
-            setCartItems(localCart);
-            return;
-        }
-        
-        try {
-            const response = await axios.post(url + "/api/cart/add", { itemId }, { headers: { token } });
-            setCartItems(response.data.cartData);
-        } catch (error) {
-            console.error("Error adding to cart on backend:", error);
-        }
-    };
-
     const syncLocalCartWithServer = async () => {
-        const localCart = JSON.parse(localStorage.getItem('cartItems') || '{}');
-        if (token && Object.keys(localCart).length > 0) {
+        if (token) {
             try {
-                const response = await axios.post(url + "/api/cart/sync", { cartItems: localCart }, { headers: { token } });
-                setCartItems(response.data.cartData);
-                clearLocalStorageCart(); 
+                const localCart = JSON.parse(localStorage.getItem('cartItems') || '{}');
+                if (Object.keys(localCart).length > 0) {
+                    
+                    const response = await axios.post(url + "/api/cart/sync", { cartItems: localCart }, {
+                        headers: { Authorization: `Bearer ${token}` }
+                    });
+                    console.log("Server response after sync:", response.data);
+                    setCartItems(response.data.cartData); 
+    
+                
+                    localStorage.removeItem('cartItems');
+                    console.log("Local storage cleared");
+                } else {
+                    
+                    const response = await axios.post(url + "/api/cart/get", {}, {
+                        headers: { Authorization: `Bearer ${token}` }
+                    });
+                    console.log("Server cart data:", response.data.cartData);
+                    setCartItems(response.data.cartData); 
+                }
             } catch (error) {
                 console.error("Error syncing cart data with server:", error);
             }
+        } else {
+            
+            const localCart = JSON.parse(localStorage.getItem('cartItems') || '{}');
+            setCartItems(localCart);
         }
     };
+    
+    
+    
 
-    const removeCartItem = async (itemId) => {
-        if (!token) {
-            console.error("User not logged in.");
-            return;
+    const addToCart = async (itemId) => {
+        if (token) {
+            try {
+                const response = await axios.post(url + "/api/cart/add", { itemId }, {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                setCartItems(response.data.cartData);
+            } catch (error) {
+                console.error("Error adding to cart on backend:", error);
+            }
+        } else {
+            const updatedCart = { ...cartItems, [itemId]: (cartItems[itemId] || 0) + 1 };
+            setCartItems(updatedCart);
+            updateLocalStorage(updatedCart);
+            console.log("Added to cart locally:", updatedCart);
         }
-
-        try {
-            const response = await axios.post(url + "/api/cart/remove", { itemId }, { headers: { token } });
-            setCartItems(response.data.cartData);
-            clearLocalStorageCart(); 
-        } catch (error) {
-            console.error("Error removing from cart on backend:", error);
+    };
+    
+    const removeCartItem = async (itemId) => {
+        if (token) {
+            try {
+                const response = await axios.post(url + "/api/cart/remove", { itemId }, {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                setCartItems(response.data.cartData);
+            } catch (error) {
+                console.error("Error removing from cart on backend:", error);
+            }
+        } else {
+            const updatedCart = { ...cartItems, [itemId]: Math.max((cartItems[itemId] || 0) - 1, 0) };
+            setCartItems(updatedCart);
+            updateLocalStorage(updatedCart);
         }
     };
 
     const deleteCartItem = async (itemId) => {
-        if (!token) {
-            console.error("User not logged in.");
-            return;
-        }
-
-        try {
-            const response = await axios.post(url + "/api/cart/delete", { itemId }, { headers: { token } });
-            setCartItems(response.data.cartData);
-            clearLocalStorageCart(); 
-        } catch (error) {
-            console.error("Error removing from cart on backend:", error);
+        if (token) {
+            try {
+                const response = await axios.post(url + "/api/cart/delete", { itemId }, {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                setCartItems(response.data.cartData);
+            } catch (error) {
+                console.error("Error removing from cart on backend:", error);
+            }
+        } else {
+            const updatedCart = { ...cartItems };
+            delete updatedCart[itemId];
+            setCartItems(updatedCart);
+            updateLocalStorage(updatedCart);
         }
     };
 
@@ -389,7 +412,7 @@ const StoreContextProvider = (props) => {
         let totalAmount = 0;
         for (const item in cartItems) {
             if (cartItems[item] > 0) {
-                let itemInfo = food_list.find((product) => product._id === item);
+                const itemInfo = food_list.find((product) => product._id === item);
                 if (itemInfo) {
                     totalAmount += itemInfo.price * cartItems[item];
                 }
@@ -407,7 +430,7 @@ const StoreContextProvider = (props) => {
         }
     };
 
-    const fetchRestaurantList = async () => { 
+    const fetchRestaurantList = async () => {
         try {
             const response = await axios.get(url + "/api/restaurant/list");
             setRestaurantList(response.data.data);
@@ -417,12 +440,19 @@ const StoreContextProvider = (props) => {
     };
 
     const loadCartData = async (token) => {
-        try {
-            const response = await axios.post(url + "/api/cart/get", {}, { headers: { token } });
-            setCartItems(response.data.cartData);
-            clearLocalStorageCart(); 
-        } catch (error) {
-            console.error("Error loading cart data:", error);
+        if (token) {
+            try {
+                await syncLocalCartWithServer(); 
+                const response = await axios.post(url + "/api/cart/get", {}, {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                setCartItems(response.data.cartData);
+            } catch (error) {
+                console.error("Error loading cart data:", error);
+            }
+        } else {
+            const localCart = JSON.parse(localStorage.getItem('cartItems') || '{}');
+            setCartItems(localCart);
         }
     };
 
@@ -432,6 +462,7 @@ const StoreContextProvider = (props) => {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setUserProfile(response.data.profile);
+            console.log("Fetched user profile:", response.data.profile);
         } catch (error) {
             console.error("Error fetching user profile:", error);
         }
@@ -441,8 +472,8 @@ const StoreContextProvider = (props) => {
         try {
             setError(null);
             setSuccess(false);
-    
-            let response;     
+
+            let response;
             
             if (profileData instanceof FormData) {
                 response = await axios.post(url + "/api/profile/update", profileData, {
@@ -465,32 +496,16 @@ const StoreContextProvider = (props) => {
         }
     };
 
-    useEffect(() => {
-        async function loadData() {
-            await fetchFoodList();
-            await fetchRestaurantList(); 
-            const storedToken = localStorage.getItem("token");
-            if (storedToken) {
-                setToken(storedToken);
-                await loadCartData(storedToken); 
-                await getUserProfile();
-            }
-        }
-        loadData();
-    }, []);
-
-    useEffect(() => {
-        if (token) {
-            syncLocalCartWithServer(); 
-        }
-    }, [token]);
-
     const handleCheckout = async (amount, currency) => {
         try {
             const res = await axios.post(url + "/api/order/placeorder", {
-                amount,
-                currency
-            }, { headers: { token } });
+                method: "POST",
+                headers: {
+                          "Content-Type": "application/json",
+                          token
+                        },
+                body: JSON.stringify({ amount, currency })
+            });
 
             const data = await res.data;
             if (res.status === 200) {
@@ -505,7 +520,7 @@ const StoreContextProvider = (props) => {
 
     const contextValue = {
         food_list,
-        restaurant_list, 
+        restaurant_list,
         addToCart,
         removeCartItem,
         deleteCartItem,
@@ -523,6 +538,48 @@ const StoreContextProvider = (props) => {
         error,
         success,
     };
+
+    useEffect(() => {
+        async function loadData() {
+            
+            const storedCartItems = localStorage.getItem('cartItems');
+            if (storedCartItems) {
+                try {
+                    setCartItems(JSON.parse(storedCartItems));
+                } catch (error) {
+                    console.error("Error parsing cart items from localStorage:", error);
+                    setCartItems({});
+                }
+            }
+
+            
+            await fetchFoodList();
+            await fetchRestaurantList(); 
+
+            
+            const storedToken = localStorage.getItem("token");
+            if (storedToken) {
+                setToken(storedToken);
+                await syncLocalCartWithServer(); 
+                await getUserProfile();
+            }
+        }
+        loadData();
+    }, []); 
+
+    useEffect(() => {
+        if (token) {
+            localStorage.setItem('token', token);
+            syncLocalCartWithServer(); 
+        } else {
+            localStorage.removeItem('token');
+            const localCart = JSON.parse(localStorage.getItem('cartItems') || '{}');
+            setCartItems(localCart);
+        }
+    }, [token]);
+
+    
+    
 
     return (
         <StoreContext.Provider value={contextValue}>
